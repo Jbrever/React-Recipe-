@@ -69,9 +69,14 @@ function SignupForm(){
     
     // for form submition with server
     async function handleSignupFormSubmit(e){
-         e.preventDefault();
-         let response = await axios.post('http://localhost:5000/signup',{ user: [username, email, password , rePassword] })
-         console.log('here',response);
+        e.preventDefault();
+        try{
+            let response = await axios.post('http://localhost:5000/signup',{ user: [username, email, password , rePassword] })
+            console.log('here',response);
+        }
+        catch(err){
+            console.log("error at signup form submition -::",err);
+        }
     }
 
     return(
