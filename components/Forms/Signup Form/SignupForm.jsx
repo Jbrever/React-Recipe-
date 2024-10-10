@@ -1,4 +1,5 @@
-import React, { useEffect,useContext } from "react";
+import React, { useEffect,useContext, useState } from "react";
+import axios from "axios";
 import {Link, NavLink} from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretLeft , faCaretRight, faLock, faUser , faEnvelope} from '@fortawesome/free-solid-svg-icons'
@@ -7,6 +8,12 @@ import "./SignupForm.css"
 import { ThemeModeContext } from "../../../src/App";
 
 function SignupForm(){
+    const [username,setUsername] = useState('');
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
+    const [rePassword,setRePassword] = useState('');
+
+
     useEffect(()=>{
         const imgContainer = document.querySelector('.images')
         const leftBtn = document.querySelector('.leftBtn')
@@ -50,6 +57,7 @@ function SignupForm(){
         })
     },[])
 
+    // for dark/light Mode
     let {themeMode} = useContext(ThemeModeContext);
     useEffect(()=>{
         if(themeMode == 'dark'){
@@ -58,10 +66,18 @@ function SignupForm(){
             document.querySelector('.signupMainContainer').classList.remove('darkMode')
         }
     },[themeMode])
+    
+    // for form submition with server
+    async function handleSignupFormSubmit(e){
+         e.preventDefault();
+         let response = await axios.post('http://localhost:5000/signup',{ user: [username, email, password , rePassword] })
+         console.log('here',response);
+    }
+
     return(
      <div className="signupMainContainer">
             <div className="signupHeading">
-                 SignupF To save 
+                 Signup To save 
                  <p>Your favourite Recipe</p>  
             </div>
         <div className="signupContainer">  
@@ -77,29 +93,29 @@ function SignupForm(){
             <div className="user-img"></div>
             <h1 className="welcomeHeading">welcome</h1>
        
-           <form action=""> 
+           <form onSubmit={handleSignupFormSubmit} method="post" action=""> 
               <label htmlFor="username">
                  <FontAwesomeIcon icon={faUser}/>
-                 <input type="text" placeholder="Enter Usernamem" id="username"/>
+                 <input required type="text" value={username} onChange={(e)=>setUsername(e.target.value)} placeholder="Enter Usernamem" id="username"/>
               </label>
               <label htmlFor="email1">
                  <FontAwesomeIcon icon={faEnvelope}/>
-                 <input type="email" placeholder="Enter Email"id="email1"/>
+                 <input required type="email" value={email} onChange={(e)=>setEmail(e.target.value)}  placeholder="Enter Email"id="email1"/>
               </label>
               <label htmlFor="password">
                  <FontAwesomeIcon icon={faLock}/>
-                 <input type="password" placeholder="Enter Password" id="password"/>
+                 <input required type="password" value={password} onChange={(e)=>setPassword(e.target.value)}  placeholder="Enter Password" id="password"/>
               </label>
               <label htmlFor="re-password">
                  <FontAwesomeIcon icon={faLock}/>
-                 <input type="text" placeholder="Enter password"id="re-password"/>
+                 <input required type="text" value={rePassword} onChange={(e)=>setRePassword(e.target.value)}   placeholder="Renter password"id="re-password"/>
               </label>
            
               <div className="links">
                 <Link to="/login" className="loginLink">Login</Link>
                 {/* <Link href="#" className="forgetPas" target="_main">forget password ?</Link>      */}
               </div>
-              <button className="signupBtn">SignupF</button>
+              <button className="signupBtn" type="submit">Signup</button>
            </form>
        
          </div>

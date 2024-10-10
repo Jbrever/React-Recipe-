@@ -170,6 +170,10 @@
    background-color:  rgb(13, 59, 99) ;
 }
 
+.signupContainer .signupPage form .signupBtn:active{
+  transform: scale(0.98);
+}
+
 .signupContainer .signupPage form .links , .loginLink{
     font-size: 12px;
     text-decoration: none;

@@ -18,6 +18,5 @@ export {
     Footer,
     DayNightMode,
     LoginForm,
-    SignupForm,
-    
-}
+    SignupForm,   
+} 
